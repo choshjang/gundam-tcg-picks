@@ -2,15 +2,527 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<title>Gundam TCG Weekly Picks</title>
-<meta http-equiv="refresh" content="0; url=summary.html" />
-<link rel="canonical" href="summary.html" />
+<title>Gundam TCG Weekly Picks — Baseline Week (2026-04-29)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <style>
-  body { background: #0f1117; color: #e6e9ef; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
-  a { color: #6da7ff; }
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface-2: #232732;
+    --border: #2e3340;
+    --text: #e6e9ef;
+    --text-dim: #9aa3b2;
+    --accent: #6da7ff;
+    --buy: #4ade80;
+    --buy-dim: #1f6b3a;
+    --sell: #f87171;
+    --sell-dim: #6b1f1f;
+    --warn: #fbbf24;
+  }
+  * { box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.55;
+  }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 32px 24px 64px; }
+  header h1 { font-size: 28px; margin: 0 0 4px; letter-spacing: -0.5px; }
+  header .subtitle { color: var(--text-dim); margin: 0 0 12px; font-size: 14px; }
+  .baseline-banner {
+    background: linear-gradient(180deg, rgba(251,191,36,0.10), rgba(251,191,36,0.05));
+    border: 1px solid rgba(251,191,36,0.35);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin: 20px 0 28px;
+    color: var(--text);
+    font-size: 14px;
+  }
+  .baseline-banner strong { color: var(--warn); letter-spacing: 0.3px; }
+  .market-snapshot {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 22px;
+    margin: 0 0 32px;
+    font-size: 15px;
+  }
+  .market-snapshot h2 { margin: 0 0 8px; font-size: 16px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+  h2.section-header {
+    margin: 36px 0 16px;
+    font-size: 22px;
+    padding: 8px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+  }
+  h2.buy-header { background: rgba(74,222,128,0.08); border-color: var(--buy-dim); color: var(--buy); }
+  h2.sell-header { background: rgba(248,113,113,0.08); border-color: var(--sell-dim); color: var(--sell); }
+  h2.watch-header { background: rgba(109,167,255,0.08); border-color: rgba(109,167,255,0.35); color: var(--accent); }
+  .card-pick {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 22px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin: 0 0 16px;
+  }
+  .card-pick .img-wrap { display: flex; align-items: flex-start; justify-content: center; }
+  .card-pick img {
+    max-width: 220px;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 5 / 7;
+    object-fit: contain;
+    border-radius: 8px;
+    background: var(--surface-2);
+  }
+  .card-pick .body { min-width: 0; }
+  .card-pick h3 { margin: 0 0 4px; font-size: 18px; }
+  .card-pick .meta { color: var(--text-dim); font-size: 13px; margin: 0 0 10px; }
+  .badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 4px;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+  .badge.watch-buy { background: rgba(74,222,128,0.15); color: var(--buy); border: 1px solid var(--buy-dim); }
+  .badge.watch-sell { background: rgba(248,113,113,0.15); color: var(--sell); border: 1px solid var(--sell-dim); }
+  .badge.watch-neutral { background: rgba(109,167,255,0.15); color: var(--accent); border: 1px solid rgba(109,167,255,0.35); }
+  table.prices {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin: 8px 0 12px;
+  }
+  table.prices th, table.prices td {
+    padding: 6px 10px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  table.prices th { color: var(--text-dim); font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .price-num { font-variant-numeric: tabular-nums; }
+  .why { background: var(--surface-2); border-radius: 6px; padding: 10px 14px; margin: 8px 0; font-size: 14px; }
+  .why .why-label { color: var(--text-dim); font-size: 11px; text-transform: uppercase; letter-spacing: 0.6px; font-weight: 700; margin-bottom: 4px; display: block; }
+  .why a { color: var(--accent); text-decoration: none; border-bottom: 1px dotted var(--accent); }
+  .why a:hover { text-decoration: underline; }
+  .grid-table { width: 100%; border-collapse: collapse; font-size: 13px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin: 0 0 24px; }
+  .grid-table th, .grid-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+  .grid-table th { background: var(--surface-2); color: var(--text-dim); font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+  .grid-table tr:last-child td { border-bottom: none; }
+  .grid-table img { max-height: 64px; aspect-ratio: 5/7; object-fit: contain; border-radius: 4px; background: var(--surface-2); }
+  h3.set-header {
+    margin: 26px 0 10px;
+    font-size: 16px;
+    color: var(--accent);
+    border-left: 3px solid var(--accent);
+    padding-left: 12px;
+    font-weight: 600;
+  }
+  h3.set-header .set-meta {
+    color: var(--text-dim);
+    font-weight: 400;
+    font-size: 13px;
+    margin-left: 8px;
+  }
+  .disclaimer {
+    margin-top: 36px;
+    padding: 14px 18px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+  @media (max-width: 720px) {
+    .card-pick { grid-template-columns: 140px 1fr; gap: 14px; padding: 14px; }
+    .card-pick img { max-width: 140px; }
+  }
+  /* Lightbox */
+  .zoomable { cursor: zoom-in; transition: transform 0.15s ease; }
+  .zoomable:hover { transform: scale(1.02); }
+  #lightbox {
+    position: fixed; inset: 0; z-index: 9999;
+    background: rgba(5, 7, 12, 0.92);
+    display: none; align-items: center; justify-content: center;
+    padding: 32px; cursor: zoom-out;
+    backdrop-filter: blur(4px);
+  }
+  #lightbox.open { display: flex; }
+  #lightbox img {
+    max-width: min(720px, 92vw);
+    max-height: 92vh;
+    border-radius: 12px;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.6);
+    object-fit: contain;
+  }
+  #lightbox .lb-close {
+    position: absolute; top: 18px; right: 22px;
+    color: var(--text-dim); font-size: 28px; line-height: 1;
+    cursor: pointer; padding: 6px 10px; border-radius: 6px;
+    background: rgba(255,255,255,0.04);
+  }
+  #lightbox .lb-close:hover { color: var(--text); background: rgba(255,255,255,0.10); }
+  /* KPI cards */
+  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin: 0 0 28px; }
+  .kpi-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .kpi-card .kpi-label { color: var(--text-dim); font-size: 11px; text-transform: uppercase; letter-spacing: 0.6px; margin: 0 0 6px; }
+  .kpi-card .kpi-value { font-size: 22px; font-weight: 700; color: var(--text); margin: 0 0 4px; line-height: 1.1; }
+  .kpi-card .kpi-sub { color: var(--text-dim); font-size: 12px; margin: 0; }
+  .kpi-card.up .kpi-value { color: var(--buy); }
+  .kpi-card.down .kpi-value { color: var(--sell); }
+  @media (max-width: 720px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+  /* Meta dashboard table */
+  .meta-table { width: 100%; border-collapse: collapse; font-size: 13px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin: 0 0 24px; }
+  .meta-table th, .meta-table td { padding: 8px 10px; text-align: left; border-bottom: 1px solid var(--border); vertical-align: middle; }
+  .meta-table th { background: var(--surface-2); color: var(--text-dim); font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+  .meta-table tr:last-child td { border-bottom: none; }
+  .meta-table .play-rate-bar { display: inline-block; width: 60px; height: 6px; background: var(--surface-2); border-radius: 3px; vertical-align: middle; margin-right: 6px; overflow: hidden; }
+  .meta-table .play-rate-bar > span { display: block; height: 100%; background: var(--accent); }
+  .meta-table .delta-pos { color: var(--buy); font-weight: 600; }
+  .meta-table .delta-neg { color: var(--sell); font-weight: 600; }
+  .meta-table .delta-neutral { color: var(--text-dim); }
+  .reprint-risk-high { color: var(--sell); font-weight: 600; }
+  .reprint-risk-low { color: var(--buy); font-weight: 600; }
+  .reprint-risk-mid { color: var(--warn); font-weight: 600; }
 </style>
 </head>
 <body>
-  <p>Redirecting to <a href="summary.html">the latest report</a>&hellip;</p>
+<div class="wrap">
+  <header>
+    <h1>Gundam TCG Weekly Picks</h1>
+    <p class="subtitle">Week ending Wednesday, April 29, 2026 &middot; Source: TCGCSV (TCGPlayer mirror)</p>
+  </header>
+
+  <div class="baseline-banner">
+    <strong>BASELINE WEEK + METHODOLOGY UPGRADE.</strong> First run of the weekly Gundam TCG report. We've added a new playability-driven layer using Limitless Tournament API: per-card tournament play rate from real Gundam events. This week's report combines the new Meta Dashboard with a baseline price snapshot. Full week-over-week play-rate trends start ramping next Sunday once we have prior-week data to compare against.
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <p class="kpi-label">Tracked Variants</p>
+      <p class="kpi-value">1,030</p>
+      <p class="kpi-sub">Priced singles + sealed across 18 groups</p>
+    </div>
+    <div class="kpi-card">
+      <p class="kpi-label">Tournaments Analyzed</p>
+      <p class="kpi-value">8</p>
+      <p class="kpi-sub">Real events (8+ players) last 30d, 103 decks</p>
+    </div>
+    <div class="kpi-card up">
+      <p class="kpi-label">Top Played Card</p>
+      <p class="kpi-value">59%</p>
+      <p class="kpi-sub">A Show of Resolve (GD01-100), 15 top-8 finishes</p>
+    </div>
+    <div class="kpi-card down">
+      <p class="kpi-label">Sub-MSRP Sealed</p>
+      <p class="kpi-value">GD03</p>
+      <p class="kpi-sub">Steel Requiem boxes at $91.88 vs $99 MSRP</p>
+    </div>
+  </div>
+
+  <div class="market-snapshot">
+    <h2>Market Snapshot</h2>
+    <p>Phantom Aria (GD04) hit shelves five days ago and is already showing the new chase pattern: Destiny Gundam LR++ at $755 and Zeong LR++ at $452 immediately took the top of the GD04 leaderboard, while the booster box sits at $104 (just above $99 MSRP), a typical fresh-release equilibrium. The interesting story is older product. GD01 Newtype Rising boxes are running at <strong>$263</strong>, more than 2.6x MSRP, and case prices are at $2,617, suggesting distributor-level dryup as Bandai's reprint cadence hasn't caught the secondary market. GD03 Steel Requiem boxes, by contrast, are <strong>below MSRP at $91.88</strong> three months after release, hinting at oversupply or weak meta absorption. GD02 Dual Impact is mid-pack at $126. Promo cards (Regional Championship Amuro Ray $1,100, Newtype Challenge Mission promos $400-$736) remain the highest-priced singles outside Edition Beta.</p>
+    <p style="margin-top: 12px;"><strong>Meta layer:</strong> 103 decks aggregated from the last 3 real Gundam tournaments on Limitless TCG (Eagle's Nest GD04 4/23, MSA Steel Requiem Royal Battle 4/11, Eagle's Nest S4 Finals 4/16). The competitive picture is stable: GD01 staples (A Show of Resolve, Overflowing Affection) plus the Wing/UC starter staples (Gundam ST01-001, Amuro Ray ST01-010) form the core of nearly every top-8 deck. GD02 added one true staple (Rick Dias GD02-079), GD03 added Gundam Barbatos Adapt and Gundam NT-1, GD04 hasn't added a sub-30% play rate card to the staple pool yet beyond chase LR++.</p>
+  </div>
+
+  <h2 class="section-header watch-header">Meta Dashboard &middot; Top Played Cards (Last 30 Days)</h2>
+  <p style="color: var(--text-dim); margin: -8px 0 18px; font-size: 13px;">Aggregated from 3 real Gundam tournaments on Limitless TCG (103 total decks). Source data is per-card play rate, top-8 finishes, and tournament wins. Δpp is play-rate change vs prior period (n/a this week, full trends start next Sunday).</p>
+  <table class="meta-table">
+    <tr>
+      <th>Card</th>
+      <th>Set / Number</th>
+      <th>Play Rate</th>
+      <th>Δpp</th>
+      <th>Decks</th>
+      <th>Top 8</th>
+      <th>Wins</th>
+      <th>Best Price</th>
+      <th>Top Variant</th>
+    </tr>
+    <tr><td>A Show of Resolve</td><td>GD01-100</td><td><span class="play-rate-bar"><span style="width:100%"></span></span>59%</td><td class="delta-neutral">n/a</td><td>61</td><td>15</td><td>3</td><td class="price-num">$0.50</td><td class="price-num">SP $93 / Beta $883</td></tr>
+    <tr><td>Gundam</td><td>ST01-001</td><td><span class="play-rate-bar"><span style="width:91%"></span></span>54%</td><td class="delta-neutral">n/a</td><td>56</td><td>15</td><td>3</td><td class="price-num">$0.25</td><td class="price-num">Beta LR+ $1,849</td></tr>
+    <tr><td>Amuro Ray</td><td>ST01-010</td><td><span class="play-rate-bar"><span style="width:91%"></span></span>54%</td><td class="delta-neutral">n/a</td><td>56</td><td>15</td><td>3</td><td class="price-num">$0.50</td><td class="price-num">Regional Champ $1,100</td></tr>
+    <tr><td>Overflowing Affection</td><td>GD01-118</td><td><span class="play-rate-bar"><span style="width:75%"></span></span>44%</td><td class="delta-neutral">n/a</td><td>45</td><td>12</td><td>0</td><td class="price-num">$2.00</td><td class="price-num">U+ $186 / Beta $3,167</td></tr>
+    <tr><td>Gundam Lfrith</td><td>GD01-086</td><td><span class="play-rate-bar"><span style="width:66%"></span></span>39%</td><td class="delta-neutral">n/a</td><td>40</td><td>13</td><td>1</td><td class="price-num">$0.50</td><td class="price-num">PCC promo $203</td></tr>
+    <tr><td>Corsica Base</td><td>ST02-016</td><td><span class="play-rate-bar"><span style="width:59%"></span></span>35%</td><td class="delta-neutral">n/a</td><td>36</td><td>9</td><td>2</td><td class="price-num">$0.25</td><td class="price-num">starter common</td></tr>
+    <tr><td>Aile Strike Gundam</td><td>ST04-001</td><td><span class="play-rate-bar"><span style="width:58%"></span></span>34%</td><td class="delta-neutral">n/a</td><td>35</td><td>11</td><td>0</td><td class="price-num">$1.00</td><td class="price-num">Beta LR+ $939 / SP $195</td></tr>
+    <tr><td>Guntank</td><td>GD01-008</td><td><span class="play-rate-bar"><span style="width:56%"></span></span>33%</td><td class="delta-neutral">n/a</td><td>34</td><td>10</td><td>2</td><td class="price-num">$0.50</td><td class="price-num">R+ ~$10</td></tr>
+    <tr><td>Kira Yamato</td><td>ST04-010</td><td><span class="play-rate-bar"><span style="width:56%"></span></span>33%</td><td class="delta-neutral">n/a</td><td>34</td><td>11</td><td>0</td><td class="price-num">$0.50</td><td class="price-num">NTC promo $292</td></tr>
+    <tr><td>Striker Pack</td><td>ST04-012</td><td><span class="play-rate-bar"><span style="width:53%"></span></span>31%</td><td class="delta-neutral">n/a</td><td>32</td><td>9</td><td>1</td><td class="price-num">$0.25</td><td class="price-num">starter common</td></tr>
+    <tr><td>White Base</td><td>ST01-015</td><td><span class="play-rate-bar"><span style="width:51%"></span></span>30%</td><td class="delta-neutral">n/a</td><td>31</td><td>10</td><td>2</td><td class="price-num">$0.50</td><td class="price-num">starter common</td></tr>
+    <tr><td>Rick Dias</td><td>GD02-079</td><td><span class="play-rate-bar"><span style="width:49%"></span></span>29%</td><td class="delta-neutral">n/a</td><td>30</td><td>7</td><td>1</td><td class="price-num">$2.00</td><td class="price-num">no LR+/LR++ exists</td></tr>
+    <tr><td>Anksha</td><td>GD01-020</td><td><span class="play-rate-bar"><span style="width:49%"></span></span>29%</td><td class="delta-neutral">n/a</td><td>30</td><td>7</td><td>1</td><td class="price-num">$1.00</td><td class="price-num">R no alt-art</td></tr>
+    <tr><td>Gundam Barbatos 1st Form</td><td>GD02-054</td><td><span class="play-rate-bar"><span style="width:47%"></span></span>28%</td><td class="delta-neutral">n/a</td><td>29</td><td>8</td><td>2</td><td class="price-num">$3.00</td><td class="price-num">LR+ $87 / LR++ $703</td></tr>
+    <tr><td>Gundam Barbatos Adapt</td><td>GD03-056</td><td><span class="play-rate-bar"><span style="width:47%"></span></span>28%</td><td class="delta-neutral">n/a</td><td>29</td><td>8</td><td>2</td><td class="price-num">$2.00</td><td class="price-num">SP R+ $140</td></tr>
+    <tr><td>Mikazuki Augus</td><td>ST05-010</td><td><span class="play-rate-bar"><span style="width:47%"></span></span>28%</td><td class="delta-neutral">n/a</td><td>29</td><td>8</td><td>2</td><td class="price-num">$0.50</td><td class="price-num">starter common</td></tr>
+    <tr><td>Gundam NT-1</td><td>GD03-001</td><td><span class="play-rate-bar"><span style="width:39%"></span></span>23%</td><td class="delta-neutral">n/a</td><td>24</td><td>7</td><td>2</td><td class="price-num">$1.50</td><td class="price-num">no LR++</td></tr>
+    <tr><td>Close Combat</td><td>ST03-013</td><td><span class="play-rate-bar"><span style="width:39%"></span></span>23%</td><td class="delta-neutral">n/a</td><td>24</td><td>4</td><td>0</td><td class="price-num">$0.25</td><td class="price-num">starter common</td></tr>
+    <tr><td>Graze Custom</td><td>ST05-004</td><td><span class="play-rate-bar"><span style="width:37%"></span></span>22%</td><td class="delta-neutral">n/a</td><td>23</td><td>7</td><td>2</td><td class="price-num">$0.50</td><td class="price-num">starter common</td></tr>
+    <tr><td>GQuuuuuuX (Omega Psycommu)</td><td>GD03-034</td><td><span class="play-rate-bar"><span style="width:37%"></span></span>22%</td><td class="delta-neutral">n/a</td><td>23</td><td>3</td><td>0</td><td class="price-num">$3.00</td><td class="price-num">LR+ $39 / LR++ $344</td></tr>
+  </table>
+
+  <h2 class="section-header watch-header">Reprint Risk Watch</h2>
+  <p style="color: var(--text-dim); margin: -8px 0 18px; font-size: 13px;">Cards with high play rate (≥30%) that have NOT yet been SP-reprinted in a later set. Bandai's reprint pattern (GD03 reprinted GD01 staples like Overflowing Affection, A Show of Resolve, Battle of Aces) suggests these are at elevated risk for SP reprint in GD05+. Buying base or LR+ versions of these cards now carries reprint dilution risk.</p>
+  <table class="grid-table">
+    <tr><th>Card</th><th>Set/#</th><th>Play Rate</th><th>SP Reprint Status</th><th>Reprint Risk</th><th>Price Exposure</th></tr>
+    <tr><td>A Show of Resolve</td><td>GD01-100</td><td>59%</td><td>SP version exists in GD03</td><td class="reprint-risk-low">LOW (already reprinted)</td><td>Beta U+ at $883 already discounted vs reprint</td></tr>
+    <tr><td>Overflowing Affection</td><td>GD01-118</td><td>44%</td><td>SP version exists in GD03</td><td class="reprint-risk-low">LOW (already reprinted)</td><td>Base $186 holding; Beta $3,167 at risk</td></tr>
+    <tr><td>Gundam Lfrith</td><td>GD01-086</td><td>39%</td><td>No SP yet; promo only (PCC)</td><td class="reprint-risk-high">HIGH</td><td>PCC promo $203 vulnerable to GD05 SP</td></tr>
+    <tr><td>Aile Strike Gundam</td><td>ST04-001</td><td>34%</td><td>SP version exists in GD04</td><td class="reprint-risk-low">LOW (just reprinted in GD04)</td><td>Beta LR+ $939 holding for now</td></tr>
+    <tr><td>Guntank</td><td>GD01-008</td><td>33%</td><td>No SP yet</td><td class="reprint-risk-high">HIGH</td><td>Limited price exposure (R only)</td></tr>
+    <tr><td>Rick Dias</td><td>GD02-079</td><td>29%</td><td>No SP yet, no alt-art exists</td><td class="reprint-risk-mid">MEDIUM (recent set)</td><td>Limited - no LR+/LR++ to dilute</td></tr>
+    <tr><td>Gundam Barbatos 1st Form</td><td>GD02-054</td><td>28%</td><td>No SP yet</td><td class="reprint-risk-mid">MEDIUM (recent set)</td><td>LR++ $703 vulnerable if SP appears in GD05</td></tr>
+    <tr><td>Gundam Barbatos Adapt</td><td>GD03-056</td><td>28%</td><td>SP version exists in GD04</td><td class="reprint-risk-low">LOW (just reprinted)</td><td>SP R+ $140 already absorbed reprint</td></tr>
+    <tr><td>Gundam NT-1</td><td>GD03-001</td><td>23%</td><td>No SP yet</td><td class="reprint-risk-mid">MEDIUM (recent set)</td><td>Limited LR+ exposure</td></tr>
+    <tr><td>GQuuuuuuX (Omega Psycommu)</td><td>GD03-034</td><td>22%</td><td>No SP yet</td><td class="reprint-risk-mid">MEDIUM (recent set)</td><td>LR++ $344 + LR+ $39 vulnerable</td></tr>
+  </table>
+
+  <h2 class="section-header watch-header">WATCH LIST &middot; Buy Candidates</h2>
+  <p style="color: var(--text-dim); margin: -8px 0 18px; font-size: 13px;">Cards we'll evaluate against next week's snapshot to confirm or reject as buys. No trend data yet, so these are qualitative reads pending validation.</p>
+
+  <div class="card-pick">
+    <div class="img-wrap"><img src="https://tcgplayer-cdn.tcgplayer.com/product/619072_200w.jpg" alt="Newtype Rising Booster Box" /></div>
+    <div class="body">
+      <h3><span class="badge watch-buy">Watch Buy &middot; Sealed</span>Newtype Rising Booster Box</h3>
+      <div class="meta">GD01 Newtype Rising &middot; Sealed product &middot; Released 2025-07-25</div>
+      <table class="prices">
+        <tr><th>TCGPlayer Market</th><th>Low</th><th>Mid</th><th>7d Trend</th><th>30d Trend</th></tr>
+        <tr><td class="price-num">$263.28</td><td class="price-num">$216.00</td><td class="price-num">$240.00</td><td>n/a (baseline)</td><td>n/a (baseline)</td></tr>
+      </table>
+      <div class="why">
+        <span class="why-label">Why it may be moving</span>
+        Bandai's 2026 roadmap announcement confirmed continued reprint focus on later sets, with no specific GD01 reprint window communicated. Bandai shipped a cumulative 500M+ cards globally and 700K+ event participants, but GD01 was the smallest initial print and is now the oldest English set, ~9 months removed from launch. Box is selling at <strong>2.6x MSRP</strong>, with Booster Box Cases at $2,617 (~3.5x MSRP per box equivalent). Source: <a href="https://essential-japan.com/news/bandai-reveals-2026-roadmap-for-gundam-card-game/">Essential Japan: Bandai 2026 Roadmap</a>; current pricing from TCGCSV/TCGPlayer.
+      </div>
+    </div>
+  </div>
+
+  <div class="card-pick">
+    <div class="img-wrap"><img src="https://tcgplayer-cdn.tcgplayer.com/product/691970_200w.jpg" alt="Destiny Gundam LR++" /></div>
+    <div class="body">
+      <h3><span class="badge watch-buy">Watch Buy &middot; Singles</span>Destiny Gundam (LR++)</h3>
+      <div class="meta">GD04 Phantom Aria &middot; GD04-050 &middot; LR++ Holofoil &middot; Released 2026-04-24</div>
+      <table class="prices">
+        <tr><th>TCGPlayer Market</th><th>Low</th><th>Mid</th><th>7d Trend</th><th>30d Trend</th></tr>
+        <tr><td class="price-num">$755.35</td><td class="price-num">$650.00</td><td class="price-num">$725.00</td><td>n/a (baseline)</td><td>n/a (baseline)</td></tr>
+      </table>
+      <div class="why">
+        <span class="why-label">Why it may be moving</span>
+        Bandai's official social account explicitly marketed Destiny Gundam as the LR++ alt-art chase: <em>"Introducing the LR++ Alt-Art Destiny Gundam, even rarer than LR+! Included in the Phantom Aria [GD04] booster pack."</em> LR++ rarity is roughly 1 per case of 12 boxes per Beckett's rarity guide. Demand drivers: SEED Destiny anime audience overlap and the card's competitive viability in current decks. Sources: <a href="https://x.com/GUNDAM_GCG_ENG/status/2045104989018960205">@GUNDAM_GCG_ENG showcase</a>, <a href="https://www.beckett.com/news/gundam-card-game-rarities-explained/">Beckett: Gundam rarities explained</a>.
+      </div>
+    </div>
+  </div>
+
+  <div class="card-pick">
+    <div class="img-wrap"><img src="https://tcgplayer-cdn.tcgplayer.com/product/659292_200w.jpg" alt="Gundam Barbatos 1st Form LR++" /></div>
+    <div class="body">
+      <h3><span class="badge watch-buy">Watch Buy &middot; Singles</span>Gundam Barbatos 1st Form (LR++)</h3>
+      <div class="meta">GD02 Dual Impact &middot; GD02-054 &middot; LR++ Holofoil &middot; Released 2025-10-24</div>
+      <table class="prices">
+        <tr><th>TCGPlayer Market</th><th>Low</th><th>Mid</th><th>7d Trend</th><th>30d Trend</th></tr>
+        <tr><td class="price-num">$703.04</td><td class="price-num">$600.00</td><td class="price-num">$680.00</td><td>n/a (baseline)</td><td>n/a (baseline)</td></tr>
+      </table>
+      <div class="why">
+        <span class="why-label">Why it may be moving</span>
+        GD02's flagship LR++, marketed by Bandai as "even rarer than LR+." Iron Blooded Orphans audience is one of the more recent and engaged Gundam fanbases. PriceCharting tracks this specific card via eBay sold listings as #GD02-054 and has continued sales activity into Q2 2026. Sources: <a href="https://www.facebook.com/gundamgcgen/posts/booster-pack-02-card-showcase">Bandai GCG GD02 showcase</a>, <a href="https://www.pricecharting.com/game/gundam-dual-impact/gundam-barbatos-1st-form-lr++-holo-gd02-054">PriceCharting GD02-054</a>.
+      </div>
+    </div>
+  </div>
+
+  <h2 class="section-header watch-header">WATCH LIST &middot; Sell Candidates</h2>
+  <p style="color: var(--text-dim); margin: -8px 0 18px; font-size: 13px;">Cards showing weakness signals to confirm next week. Honest read: with no trend data yet these are valuation calls based on relative pricing and catalyst absence.</p>
+
+  <div class="card-pick">
+    <div class="img-wrap"><img src="https://tcgplayer-cdn.tcgplayer.com/product/662114_200w.jpg" alt="Steel Requiem Booster Box" /></div>
+    <div class="body">
+      <h3><span class="badge watch-sell">Watch Sell &middot; Sealed</span>Steel Requiem Booster Box</h3>
+      <div class="meta">GD03 Steel Requiem &middot; Sealed product &middot; Released 2026-01-30</div>
+      <table class="prices">
+        <tr><th>TCGPlayer Market</th><th>Low</th><th>Mid</th><th>7d Trend</th><th>30d Trend</th></tr>
+        <tr><td class="price-num">$91.88</td><td class="price-num">$76.00</td><td class="price-num">$84.99</td><td>n/a (baseline)</td><td>n/a (baseline)</td></tr>
+      </table>
+      <div class="why">
+        <span class="why-label">Why sell now (qualitative)</span>
+        GD03 boxes are sub-MSRP ($99) three months after release, in stark contrast to GD01 boxes at 2.6x MSRP. Bandai's GD03 release deliberately included reprints of GD01-era key cards (e.g. Overflowing Affection, A Show of Resolve, Battle of Aces with SP variants), which dilutes the "scarcity" narrative for older singles. With GD04 now out and absorbing LR++ chase demand, GD03 sealed has competing newer product. Source: <a href="https://essential-japan.com/news/bandai-reveals-2026-roadmap-for-gundam-card-game/">Essential Japan: 2026 roadmap including GD03 reprints</a>.
+      </div>
+      <div class="why">
+        <span class="why-label">Risk if you hold</span>
+        If GD03 sealed drops further as GD04 demand pulls dollars away, basis erodes ~10-20%. Conversely, a sub-$80 floor could trigger value buying.
+      </div>
+    </div>
+  </div>
+
+  <div class="card-pick">
+    <div class="img-wrap"><img src="https://tcgplayer-cdn.tcgplayer.com/product/666562_200w.jpg" alt="Amuro Ray Regional Championship promo" /></div>
+    <div class="body">
+      <h3><span class="badge watch-sell">Watch Sell &middot; Promo</span>Amuro Ray (Regional Championship)</h3>
+      <div class="meta">Promotional &middot; ST01-010 &middot; Common Holofoil &middot; Regional Championship 2025-26 prize</div>
+      <table class="prices">
+        <tr><th>TCGPlayer Market</th><th>Low</th><th>Mid</th><th>7d Trend</th><th>30d Trend</th></tr>
+        <tr><td class="price-num">$1,100.00</td><td class="price-num">$950.00</td><td class="price-num">$1,050.00</td><td>n/a (baseline)</td><td>n/a (baseline)</td></tr>
+      </table>
+      <div class="why">
+        <span class="why-label">Why sell now (qualitative)</span>
+        Highest-priced English Gundam promo at $1,100. Regional Championship participation promos have a fixed (though small) supply that grows monotonically as more regionals run during the 25-26 season. Bandai's official Regional Championship calendar continues throughout 2026, meaning supply is increasing while audience excitement around this specific promo is past peak. Sources: <a href="https://www.gundam-gcg.com/en/events/regionalchampionships.html">Bandai Regional Championships official</a>, <a href="https://www.gundam-tcg.com/en/news/gundam-card-game-weekly-digest-march-2026-competitive-season-kicks-off-with-newtype-challenge-store-championships-and-world-championship-roadmap">Gundam TCG weekly digest, March 2026</a>.
+      </div>
+      <div class="why">
+        <span class="why-label">Risk if you hold</span>
+        Stays elevated if the World Championship draws unusually high attention at season's end. But with each new regional, supply ticks up.
+      </div>
+    </div>
+  </div>
+
+  <h2 class="section-header watch-header">Reference &middot; Top Chase Cards by Set</h2>
+  <p style="color: var(--text-dim); margin: -8px 0 18px; font-size: 13px;">Top 10 priced singles per set (excludes sealed, starter decks, and bundles). Click any image for HD.</p>
+
+  <h3 class="set-header">GD04 Phantom Aria <span class="set-meta">Released 2026-04-24 &middot; Top 10 by market price</span></h3>
+  <table class="grid-table">
+    <tr><th></th><th>Card</th><th>Number</th><th>Rarity</th><th>Variant</th><th>Market</th></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/691970_200w.jpg" alt="Destiny Gundam (LR++)" /></td><td>Destiny Gundam (LR++)</td><td>GD04-050</td><td>LR++</td><td>Holofoil</td><td class="price-num">$755.35</td></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/691971_200w.jpg" alt="Zeong (LR++)" /></td><td>Zeong (LR++)</td><td>GD04-017</td><td>LR++</td><td>Holofoil</td><td class="price-num">$452.38</td></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/691976_200w.jpg" alt="Aile Strike Gundam SP" /></td><td>Aile Strike Gundam (SP) (LR+)</td><td>ST04-001</td><td>LR+</td><td>Holofoil</td><td class="price-num">$195.38</td></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/691973_200w.jpg" alt="Gundam Barbatos Adapt SP" /></td><td>Gundam Barbatos Adapt (SP) (R+)</td><td>GD03-056</td><td>R+</td><td>Holofoil</td><td class="price-num">$139.84</td></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/691939_200w.jpg" alt="Suletta Mercury R+" /></td><td>Suletta Mercury (R+)</td><td>GD04-085</td><td>R+</td><td>Holofoil</td><td class="price-num">$114.24</td></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/691977_200w.jpg" alt="Unicorn Gundam Destroy Mode SP" /></td><td>Unicorn Gundam (Destroy Mode) (SP) (LR+)</td><td>GD01-002</td><td>LR+</td><td>Holofoil</td><td class="price-num">$103.09</td></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/691974_200w.jpg" alt="Gundam Dynames SP U+" /></td><td>Gundam Dynames (SP) (U+)</td><td>GD03-020</td><td>U+</td><td>Holofoil</td><td class="price-num">$86.36</td></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/691975_200w.jpg" alt="Red Gundam SP R+" /></td><td>Red Gundam (SP) (R+)</td><td>GD03-039</td><td>R+</td><td>Holofoil</td><td class="price-num">$73.45</td></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/691943_200w.jpg" alt="Destiny Gundam LR+" /></td><td>Destiny Gundam (LR+)</td><td>GD04-050</td><td>LR+</td><td>Holofoil</td><td class="price-num">$67.67</td></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/691953_200w.jpg" alt="Graceful Demeanor R+" /></td><td>Graceful Demeanor (R+)</td><td>GD04-117</td><td>R+</td><td>Holofoil</td><td class="price-num">$63.99</td></tr>
+  </table>
+
+  <h3 class="set-header">GD03 Steel Requiem <span class="set-meta">Released 2026-01-30 &middot; Top 10 by market price</span></h3>
+  <table class="grid-table">
+    <tr><th></th><th>Card</th><th>Number</th><th>Rarity</th><th>Variant</th><th>Market</th></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/675689_200w.jpg" alt="GFreD LR++" /></td><td>GFreD (LR++)</td><td>GD03-035</td><td>LR++</td><td>Holofoil</td><td class="price-num">$381.87</td></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/675703_200w.jpg" alt="Kampfer LR++" /></td><td>Kampfer (LR++)</td><td>GD03-017</td><td>LR++</td><td>Holofoil</td><td class="price-num">$343.58</td></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/675706_200w.jpg" alt="Overflowing Affection SP" /></td><td>Overflowing Affection (SP) (U+)</td><td>GD01-118</td><td>U+</td><td>Holofoil</td><td class="price-num">$118.52</td></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/675685_200w.jpg" alt="Fatal Strike SP" /></td><td>Fatal Strike (SP) (C+)</td><td>ST05-014</td><td>C+</td><td>Holofoil</td><td class="price-num">$110.63</td></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/675730_200w.jpg" alt="Battle of Aces SP" /></td><td>Battle of Aces (SP) (R+)</td><td>GD01-111</td><td>R+</td><td>Holofoil</td><td class="price-num">$106.43</td></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/675679_200w.jpg" alt="A Show of Resolve SP" /></td><td>A Show of Resolve (SP) (U+)</td><td>GD01-100</td><td>U+</td><td>Holofoil</td><td class="price-num">$92.68</td></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/675695_200w.jpg" alt="Gundam Barbatos Lupus LR+" /></td><td>Gundam Barbatos Lupus (LR+)</td><td>GD03-050</td><td>LR+</td><td>Holofoil</td><td class="price-num">$48.88</td></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/675701_200w.jpg" alt="Improved Technique R+" /></td><td>Improved Technique (R+)</td><td>GD03-109</td><td>R+</td><td>Holofoil</td><td class="price-num">$45.11</td></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/675708_200w.jpg" alt="Providence Gundam LR+" /></td><td>Providence Gundam (LR+)</td><td>GD03-033</td><td>LR+</td><td>Holofoil</td><td class="price-num">$42.01</td></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/675690_200w.jpg" alt="GQuuuuuuX Omega Psycommu LR+" /></td><td>GQuuuuuuX (Omega Psycommu) (LR+)</td><td>GD03-034</td><td>LR+</td><td>Holofoil</td><td class="price-num">$38.69</td></tr>
+  </table>
+
+  <h3 class="set-header">GD02 Dual Impact <span class="set-meta">Released 2025-10-24 &middot; Top 10 by market price</span></h3>
+  <table class="grid-table">
+    <tr><th></th><th>Card</th><th>Number</th><th>Rarity</th><th>Variant</th><th>Market</th></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/659292_200w.jpg" alt="Gundam Barbatos 1st Form LR++" /></td><td>Gundam Barbatos 1st Form (LR++)</td><td>GD02-054</td><td>LR++</td><td>Holofoil</td><td class="price-num">$703.04</td></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/659279_200w.jpg" alt="GQuuuuuuX Omega Psycommu LR++" /></td><td>GQuuuuuuX (Omega Psycommu) (LR++)</td><td>GD02-038</td><td>LR++</td><td>Holofoil</td><td class="price-num">$366.99</td></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/659248_200w.jpg" alt="Gundam Epyon LR+" /></td><td>Gundam Epyon (LR+)</td><td>GD02-002</td><td>LR+</td><td>Holofoil</td><td class="price-num">$102.81</td></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/659291_200w.jpg" alt="Gundam Barbatos 1st Form LR+" /></td><td>Gundam Barbatos 1st Form (LR+)</td><td>GD02-054</td><td>LR+</td><td>Holofoil</td><td class="price-num">$87.13</td></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/659294_200w.jpg" alt="Gundam Gusion Rebake LR+" /></td><td>Gundam Gusion Rebake (LR+)</td><td>GD02-055</td><td>LR+</td><td>Holofoil</td><td class="price-num">$65.55</td></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/659247_200w.jpg" alt="Psycho Gundam LR+" /></td><td>Psycho Gundam (LR+)</td><td>GD02-001</td><td>LR+</td><td>Holofoil</td><td class="price-num">$38.12</td></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/659252_200w.jpg" alt="Tallgeese R+" /></td><td>Tallgeese (R+)</td><td>GD02-005</td><td>R+</td><td>Holofoil</td><td class="price-num">$35.10</td></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/659330_200w.jpg" alt="Garrod Ran and Tiffa Adill R+" /></td><td>Garrod Ran &amp; Tiffa Adill (R+)</td><td>GD02-094</td><td>R+</td><td>Holofoil</td><td class="price-num">$30.10</td></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/659274_200w.jpg" alt="Qubeley LR+" /></td><td>Qubeley (LR+)</td><td>GD02-036</td><td>LR+</td><td>Holofoil</td><td class="price-num">$28.96</td></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/659322_200w.jpg" alt="Four Murasame R+" /></td><td>Four Murasame (R+)</td><td>GD02-085</td><td>R+</td><td>Holofoil</td><td class="price-num">$27.78</td></tr>
+  </table>
+
+  <h3 class="set-header">GD01 Newtype Rising <span class="set-meta">Released 2025-07-25 &middot; Top 10 by market price</span></h3>
+  <table class="grid-table">
+    <tr><th></th><th>Card</th><th>Number</th><th>Rarity</th><th>Variant</th><th>Market</th></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/645376_200w.jpg" alt="Gundam Aerial Rebuild LR++" /></td><td>Gundam Aerial Rebuild (LR++)</td><td>GD01-067</td><td>LR++</td><td>Holofoil</td><td class="price-num">$671.22</td></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/645375_200w.jpg" alt="Gundam LR++" /></td><td>Gundam (LR++)</td><td>GD01-001</td><td>LR++</td><td>Holofoil</td><td class="price-num">$629.22</td></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/646003_200w.jpg" alt="Overflowing Affection U+" /></td><td>Overflowing Affection (U+)</td><td>GD01-118</td><td>U+</td><td>Holofoil</td><td class="price-num">$186.32</td></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/645344_200w.jpg" alt="Wing Gundam Zero LR+" /></td><td>Wing Gundam Zero (LR+)</td><td>GD01-024</td><td>LR+</td><td>Holofoil</td><td class="price-num">$153.09</td></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/645363_200w.jpg" alt="Marida Cruz R+" /></td><td>Marida Cruz (R+)</td><td>GD01-093</td><td>R+</td><td>Holofoil</td><td class="price-num">$93.93</td></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/645372_200w.jpg" alt="Gundam Aerial Rebuild LR+" /></td><td>Gundam Aerial Rebuild (LR+)</td><td>GD01-067</td><td>LR+</td><td>Holofoil</td><td class="price-num">$81.94</td></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/645373_200w.jpg" alt="Kshatriya LR+" /></td><td>Kshatriya (LR+)</td><td>GD01-044</td><td>LR+</td><td>Holofoil</td><td class="price-num">$79.25</td></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/645342_200w.jpg" alt="A Show of Resolve U+" /></td><td>A Show of Resolve (U+)</td><td>GD01-100</td><td>U+</td><td>Holofoil</td><td class="price-num">$68.74</td></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/646005_200w.jpg" alt="Justice Gundam LR+" /></td><td>Justice Gundam (LR+)</td><td>GD01-066</td><td>LR+</td><td>Holofoil</td><td class="price-num">$59.14</td></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/645360_200w.jpg" alt="Shenlong Gundam R+" /></td><td>Shenlong Gundam (R+)</td><td>GD01-029</td><td>R+</td><td>Holofoil</td><td class="price-num">$59.09</td></tr>
+  </table>
+
+  <h3 class="set-header">Edition Beta <span class="set-meta">Pre-launch print, limited supply &middot; Top 10 by market price</span></h3>
+  <table class="grid-table">
+    <tr><th></th><th>Card</th><th>Number</th><th>Rarity</th><th>Variant</th><th>Market</th></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/616611_200w.jpg" alt="Wing Gundam Beta" /></td><td>Wing Gundam (LR+)</td><td>ST02-001</td><td>LR+</td><td>Holofoil</td><td class="price-num">$4,999.99</td></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/616669_200w.jpg" alt="Overflowing Affection Beta" /></td><td>Overflowing Affection (U+)</td><td>GD01-118</td><td>U+</td><td>Holofoil</td><td class="price-num">$3,166.66</td></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/616531_200w.jpg" alt="Gundam Beta LR+" /></td><td>Gundam (LR+)</td><td>ST01-001</td><td>LR+</td><td>Holofoil</td><td class="price-num">$1,848.77</td></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/616641_200w.jpg" alt="Char's Zaku II Beta R+" /></td><td>Char's Zaku II (R+)</td><td>GD01-026</td><td>R+</td><td>Holofoil</td><td class="price-num">$1,083.83</td></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/616624_200w.jpg" alt="Aile Strike Gundam Beta LR+" /></td><td>Aile Strike Gundam (LR+)</td><td>ST04-001</td><td>LR+</td><td>Holofoil</td><td class="price-num">$938.50</td></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/616663_200w.jpg" alt="A Show of Resolve Beta U+" /></td><td>A Show of Resolve (U+)</td><td>GD01-100</td><td>U+</td><td>Holofoil</td><td class="price-num">$883.33</td></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/616621_200w.jpg" alt="Char Aznable Beta C+" /></td><td>Char Aznable (C+)</td><td>ST03-011</td><td>C+</td><td>Holofoil</td><td class="price-num">$750.00</td></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/616657_200w.jpg" alt="Banagher Links Beta U+" /></td><td>Banagher Links (U+)</td><td>GD01-088</td><td>U+</td><td>Holofoil</td><td class="price-num">$704.78</td></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/616666_200w.jpg" alt="First Contact Beta U+" /></td><td>First Contact (U+)</td><td>GD01-107</td><td>U+</td><td>Normal</td><td class="price-num">$539.52</td></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/616631_200w.jpg" alt="Guncannon Beta R+" /></td><td>Guncannon (R+)</td><td>GD01-004</td><td>R+</td><td>Normal</td><td class="price-num">$478.82</td></tr>
+  </table>
+
+  <h3 class="set-header">Promotional <span class="set-meta">Tournament + event promos (Newtype Challenge, Regional Championship) &middot; Top 10 by market price</span></h3>
+  <table class="grid-table">
+    <tr><th></th><th>Card</th><th>Number</th><th>Rarity</th><th>Variant</th><th>Market</th></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/666562_200w.jpg" alt="Amuro Ray Regional Championship" /></td><td>Amuro Ray (Regional Championship)</td><td>ST01-010</td><td>Common</td><td>Holofoil</td><td class="price-num">$1,100.00</td></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/675727_200w.jpg" alt="Freedom Gundam NTC 2026 M1" /></td><td>Freedom Gundam (NTC 2026 Mission 1)</td><td>GD01-065</td><td>Legend Rare</td><td>Holofoil</td><td class="price-num">$736.05</td></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/681967_200w.jpg" alt="Gundam Dynames NTC 2026 M2" /></td><td>Gundam Dynames (NTC 2026 Mission 2)</td><td>ST07-005</td><td>Legend Rare</td><td>Holofoil</td><td class="price-num">$580.05</td></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/666555_200w.jpg" alt="Qubeley NTC 2025 M3" /></td><td>Qubeley (NTC 2025 Mission 3)</td><td>GD02-036</td><td>Legend Rare</td><td>Holofoil</td><td class="price-num">$408.87</td></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/646539_200w.jpg" alt="Gundam Aerial Rebuild NTC 2025 M1" /></td><td>Gundam Aerial Rebuild (NTC 2025 Mission 1)</td><td>GD01-067</td><td>Legend Rare</td><td>Holofoil</td><td class="price-num">$407.15</td></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/661893_200w.jpg" alt="Zeta Gundam NTC 2025 M2" /></td><td>Zeta Gundam (NTC 2025 Mission 2)</td><td>GD02-069</td><td>Legend Rare</td><td>Holofoil</td><td class="price-num">$347.87</td></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/675728_200w.jpg" alt="Kira Yamato NTC 2026 M1" /></td><td>Kira Yamato (NTC 2026 Mission 1)</td><td>ST04-010</td><td>Common</td><td>Holofoil</td><td class="price-num">$292.19</td></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/666557_200w.jpg" alt="Haman Karn NTC 2025 M3" /></td><td>Haman Karn (NTC 2025 Mission 3)</td><td>GD02-091</td><td>Rare</td><td>Holofoil</td><td class="price-num">$228.09</td></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/643464_200w.jpg" alt="Suletta Mercury NTC 2025 M1" /></td><td>Suletta Mercury (NTC 2025 Mission 1)</td><td>ST01-011</td><td>Common</td><td>Holofoil</td><td class="price-num">$213.79</td></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/681968_200w.jpg" alt="Lockon Stratos NTC 2026 M2" /></td><td>Lockon Stratos (Neil) (NTC 2026 Mission 2)</td><td>ST07-011</td><td>Common</td><td>Holofoil</td><td class="price-num">$175.36</td></tr>
+  </table>
+
+  <h2 class="section-header watch-header">Reference &middot; Sealed Booster Boxes</h2>
+  <table class="grid-table">
+    <tr><th></th><th>Set</th><th>Released</th><th>Market</th><th>vs MSRP ($99)</th></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/619072_200w.jpg" /></td><td>GD01 Newtype Rising</td><td>2025-07-25</td><td class="price-num">$263.28</td><td style="color: var(--buy);">+166%</td></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/650748_200w.jpg" /></td><td>GD02 Dual Impact</td><td>2025-10-24</td><td class="price-num">$125.76</td><td style="color: var(--buy);">+27%</td></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/682302_200w.jpg" /></td><td>GD04 Phantom Aria</td><td>2026-04-24</td><td class="price-num">$104.51</td><td style="color: var(--text-dim);">+6%</td></tr>
+    <tr><td><img src="https://tcgplayer-cdn.tcgplayer.com/product/662114_200w.jpg" /></td><td>GD03 Steel Requiem</td><td>2026-01-30</td><td class="price-num">$91.88</td><td style="color: var(--sell);">-7%</td></tr>
+  </table>
+
+  <div class="disclaimer">
+    <strong>Methodology:</strong> Gundam pricing is playability-driven (not art-collectibility-driven like Pokemon), so this report combines TCGCSV pricing with Limitless TCG Tournament API data. Per-card play rate from real Gundam tournaments is the primary leading indicator; price momentum and supply factors are secondary. Limitations: TCGPlayer market price is listing-derived (not eBay sold), so chase-card prices can lag eBay sold by 3-7 days; we have no sale-volume signal without paid sources (PriceCharting Premium, JustTCG paid tier). The Gundam English market has ~16 months of history; signal thresholds (10pp play-rate change, 30% staple definition) are starting points, not backtested. Not investment advice.
+    <br><br>
+    Sources: <a href="https://tcgcsv.com/" style="color: var(--accent);">TCGCSV</a> (TCGPlayer pricing mirror), <a href="https://docs.limitlesstcg.com/developer.html" style="color: var(--accent);">Limitless TCG Tournament API</a> (no auth, free), <a href="https://exburst.dev/gundam/tournaments/meta" style="color: var(--accent);">exburst.dev</a> (community meta), <a href="https://gundamcard.gg/tier-list/" style="color: var(--accent);">gundamcard.gg</a> (tier list), <a href="https://www.gundam-gcg.com/" style="color: var(--accent);">Bandai official</a>, <a href="https://essential-japan.com/news/" style="color: var(--accent);">Essential Japan</a> (roadmap/reprint news), Beckett News.
+  </div>
+</div>
+
+<div id="lightbox" role="dialog" aria-modal="true" aria-label="Card image preview">
+  <span class="lb-close" aria-label="Close">&times;</span>
+  <img id="lightbox-img" alt="" />
+</div>
+
+<script>
+  // Make every card image zoomable. Swap the TCGPlayer CDN size suffix for HD on click.
+  function toHD(url) {
+    if (!url) return url;
+    // tcgplayer-cdn.tcgplayer.com/product/{id}_200w.jpg → _in_1000x1000.jpg
+    return url
+      .replace(/_200w\.(jpg|png|webp)/i, '_in_1000x1000.$1')
+      .replace(/_400w\.(jpg|png|webp)/i, '_in_1000x1000.$1');
+  }
+  const lb = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lightbox-img');
+  function openLB(src, alt) {
+    lbImg.src = toHD(src);
+    lbImg.alt = alt || '';
+    lb.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLB() {
+    lb.classList.remove('open');
+    lbImg.src = '';
+    document.body.style.overflow = '';
+  }
+  document.querySelectorAll('.card-pick img, .grid-table img').forEach(img => {
+    img.classList.add('zoomable');
+    img.addEventListener('click', () => openLB(img.src, img.alt));
+  });
+  lb.addEventListener('click', closeLB);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLB(); });
+</script>
 </body>
 </html>
