@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Gundam TCG Weekly Picks &middot; Summary</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface-2: #232732;
+    --border: #2e3340;
+    --text: #e6e9ef;
+    --text-dim: #9aa3b2;
+    --accent: #6da7ff;
+    --buy: #4ade80;
+    --buy-dim: #1f6b3a;
+    --sell: #f87171;
+    --sell-dim: #6b1f1f;
+    --warn: #fbbf24;
+  }
+  * { box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; padding: 0; line-height: 1.55; }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 32px 24px 64px; }
+  header h1 { font-size: 28px; margin: 0 0 4px; letter-spacing: -0.5px; }
+  header .subtitle { color: var(--text-dim); margin: 0 0 12px; font-size: 14px; }
+  .filters { display: flex; gap: 8px; flex-wrap: wrap; margin: 18px 0 28px; }
+  .filter-btn { background: var(--surface); border: 1px solid var(--border); color: var(--text); padding: 8px 14px; border-radius: 6px; cursor: pointer; font-size: 13px; }
+  .filter-btn.active { background: var(--surface-2); border-color: var(--accent); color: var(--accent); }
+  .week-block { margin: 0 0 36px; }
+  .week-header { font-size: 22px; margin: 0 0 14px; padding: 8px 14px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; }
+  .week-header a { color: var(--text); text-decoration: none; }
+  .week-header a:hover { color: var(--accent); }
+  .section-label { margin: 18px 0 10px; font-weight: 700; font-size: 14px; padding: 6px 12px; border-radius: 6px; display: inline-block; }
+  .section-label.buy { background: rgba(74,222,128,0.10); color: var(--buy); border: 1px solid var(--buy-dim); }
+  .section-label.sell { background: rgba(248,113,113,0.10); color: var(--sell); border: 1px solid var(--sell-dim); }
+  .section-label.watch { background: rgba(109,167,255,0.10); color: var(--accent); border: 1px solid rgba(109,167,255,0.35); }
+  .section-label a { color: inherit; text-decoration: none; }
+  .card-pick { display: grid; grid-template-columns: 160px 1fr; gap: 18px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; margin: 0 0 12px; }
+  .card-pick img { max-width: 160px; width: 100%; height: auto; aspect-ratio: 5/7; object-fit: contain; border-radius: 6px; background: var(--surface-2); }
+  .card-pick h3 { margin: 0 0 4px; font-size: 16px; }
+  .card-pick .meta { color: var(--text-dim); font-size: 12px; margin: 0 0 6px; }
+  .card-pick .summary { font-size: 13px; margin: 6px 0 0; }
+  .badge { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 0.6px; text-transform: uppercase; padding: 3px 7px; border-radius: 4px; margin-right: 6px; vertical-align: middle; }
+  .badge.watch-buy { background: rgba(74,222,128,0.15); color: var(--buy); border: 1px solid var(--buy-dim); }
+  .badge.watch-sell { background: rgba(248,113,113,0.15); color: var(--sell); border: 1px solid var(--sell-dim); }
+  .price { font-variant-numeric: tabular-nums; color: var(--text-dim); font-size: 13px; }
+  /* Lightbox */
+  .zoomable { cursor: zoom-in; transition: transform 0.15s ease; }
+  .zoomable:hover { transform: scale(1.02); }
+  #lightbox {
+    position: fixed; inset: 0; z-index: 9999;
+    background: rgba(5, 7, 12, 0.92);
+    display: none; align-items: center; justify-content: center;
+    padding: 32px; cursor: zoom-out;
+    backdrop-filter: blur(4px);
+  }
+  #lightbox.open { display: flex; }
+  #lightbox img {
+    max-width: min(720px, 92vw);
+    max-height: 92vh;
+    border-radius: 12px;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.6);
+    object-fit: contain;
+  }
+  #lightbox .lb-close {
+    position: absolute; top: 18px; right: 22px;
+    color: var(--text-dim); font-size: 28px; line-height: 1;
+    cursor: pointer; padding: 6px 10px; border-radius: 6px;
+    background: rgba(255,255,255,0.04);
+  }
+  #lightbox .lb-close:hover { color: var(--text); background: rgba(255,255,255,0.10); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Gundam TCG Weekly Picks</h1>
+    <p class="subtitle">Rolling summary of weekly buy/sell signals across GD01-GD04, sealed, and promos. Data: TCGCSV (TCGPlayer mirror).</p>
+  </header>
+
+  <div class="filters">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="buy">Buy <span class="count" data-count="buy">3</span></button>
+    <button class="filter-btn" data-filter="sell">Sell <span class="count" data-count="sell">2</span></button>
+  </div>
+
+  <div class="week-block" data-week="2026-04-29">
+    <h2 class="week-header"><a href="weekly/2026-04-29.html">Week ending April 29, 2026 &middot; BASELINE WEEK</a></h2>
+
+    <p class="section-label watch" data-section="buy"><a href="weekly/2026-04-29.html">Watch List &middot; Buy Candidates</a></p>
+
+    <div class="card-pick" data-type="buy">
+      <img src="https://tcgplayer-cdn.tcgplayer.com/product/619072_200w.jpg" alt="Newtype Rising Booster Box" />
+      <div>
+        <h3><span class="badge watch-buy">Watch Buy</span>Newtype Rising Booster Box</h3>
+        <div class="meta">GD01 Newtype Rising &middot; Sealed &middot; Released 2025-07-25</div>
+        <div class="price">TCGPlayer market: <strong>$263.28</strong> (2.6x MSRP) &middot; Case: $2,617</div>
+        <p class="summary">Box premium of 166% over $99 MSRP suggests distributor-level dryup on the oldest English set. Bandai's 2026 reprint focus is on later sets, no GD01 reprint window communicated.</p>
+      </div>
+    </div>
+
+    <div class="card-pick" data-type="buy">
+      <img src="https://tcgplayer-cdn.tcgplayer.com/product/691970_200w.jpg" alt="Destiny Gundam LR++" />
+      <div>
+        <h3><span class="badge watch-buy">Watch Buy</span>Destiny Gundam (LR++)</h3>
+        <div class="meta">GD04 Phantom Aria &middot; GD04-050 &middot; LR++ &middot; Released 2026-04-24</div>
+        <div class="price">TCGPlayer market: <strong>$755.35</strong></div>
+        <p class="summary">Bandai's marketing showcase explicitly named this as the LR++ chase, "even rarer than LR+." ~1 per case of 12 boxes. SEED Destiny audience and competitive viability are tailwinds.</p>
+      </div>
+    </div>
+
+    <div class="card-pick" data-type="buy">
+      <img src="https://tcgplayer-cdn.tcgplayer.com/product/659292_200w.jpg" alt="Gundam Barbatos 1st Form LR++" />
+      <div>
+        <h3><span class="badge watch-buy">Watch Buy</span>Gundam Barbatos 1st Form (LR++)</h3>
+        <div class="meta">GD02 Dual Impact &middot; GD02-054 &middot; LR++ &middot; Released 2025-10-24</div>
+        <div class="price">TCGPlayer market: <strong>$703.04</strong></div>
+        <p class="summary">GD02's flagship LR++. Iron Blooded Orphans audience remains engaged; PriceCharting shows continued sold-listing activity into Q2 2026.</p>
+      </div>
+    </div>
+
+    <p class="section-label watch" data-section="sell"><a href="weekly/2026-04-29.html">Watch List &middot; Sell Candidates</a></p>
+
+    <div class="card-pick" data-type="sell">
+      <img src="https://tcgplayer-cdn.tcgplayer.com/product/662114_200w.jpg" alt="Steel Requiem Booster Box" />
+      <div>
+        <h3><span class="badge watch-sell">Watch Sell</span>Steel Requiem Booster Box</h3>
+        <div class="meta">GD03 Steel Requiem &middot; Sealed &middot; Released 2026-01-30</div>
+        <div class="price">TCGPlayer market: <strong>$91.88</strong> (sub-MSRP)</div>
+        <p class="summary">Sub-MSRP after 3 months while GD01 boxes run 2.6x MSRP. GD03 included reprints of GD01 staples (SP variants), diluting scarcity. GD04 release pulls dollars away.</p>
+      </div>
+    </div>
+
+    <div class="card-pick" data-type="sell">
+      <img src="https://tcgplayer-cdn.tcgplayer.com/product/666562_200w.jpg" alt="Amuro Ray Regional Championship" />
+      <div>
+        <h3><span class="badge watch-sell">Watch Sell</span>Amuro Ray (Regional Championship)</h3>
+        <div class="meta">Promotional &middot; ST01-010 &middot; Common Holo &middot; Regional Championship 25-26</div>
+        <div class="price">TCGPlayer market: <strong>$1,100.00</strong> (highest English Gundam promo)</div>
+        <p class="summary">Supply ticks up with each new regional during the 25-26 season. Excitement around this specific promo is past peak as World Championship approaches.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- NEW_WEEK_ENTRY -->
+</div>
+
+<div id="lightbox" role="dialog" aria-modal="true" aria-label="Card image preview">
+  <span class="lb-close" aria-label="Close">&times;</span>
+  <img id="lightbox-img" alt="" />
+</div>
+
+<script>
+  // Filter buttons
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const f = btn.dataset.filter;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b === btn));
+      document.querySelectorAll('.card-pick').forEach(c => {
+        c.style.display = (f === 'all' || c.dataset.type === f) ? '' : 'none';
+      });
+      document.querySelectorAll('.section-label').forEach(s => {
+        s.style.display = (f === 'all' || s.dataset.section === f) ? '' : 'none';
+      });
+    });
+  });
+
+  // Lightbox: click any card image for HD popup
+  function toHD(url) {
+    if (!url) return url;
+    return url
+      .replace(/_200w\.(jpg|png|webp)/i, '_in_1000x1000.$1')
+      .replace(/_400w\.(jpg|png|webp)/i, '_in_1000x1000.$1');
+  }
+  const lb = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lightbox-img');
+  function openLB(src, alt) {
+    lbImg.src = toHD(src);
+    lbImg.alt = alt || '';
+    lb.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLB() {
+    lb.classList.remove('open');
+    lbImg.src = '';
+    document.body.style.overflow = '';
+  }
+  document.querySelectorAll('.card-pick img').forEach(img => {
+    img.classList.add('zoomable');
+    img.addEventListener('click', () => openLB(img.src, img.alt));
+  });
+  lb.addEventListener('click', closeLB);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLB(); });
+</script>
+</body>
+</html>
