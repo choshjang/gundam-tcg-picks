@@ -2,6 +2,8 @@
 .DS_Store
 *.swp
 .deploy-token
+inventory.csv
+inventory.*.csv
 
 # Keep snapshots out of git by default to keep the repo lean.
 # Comment this out if you want snapshots versioned.

@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Gundam TCG Weekly Picks &middot; Methodology</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  :root {
+    --bg: #0f1117; --surface: #1a1d27; --surface-2: #232732; --border: #2e3340;
+    --text: #e6e9ef; --text-dim: #9aa3b2; --accent: #6da7ff;
+    --buy: #4ade80; --sell: #f87171; --warn: #fbbf24;
+  }
+  * { box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; line-height: 1.6; }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 32px 24px 64px; }
+  header h1 { font-size: 28px; margin: 0 0 4px; letter-spacing: -0.5px; }
+  header .subtitle { color: var(--text-dim); margin: 0 0 24px; font-size: 14px; }
+  header .back { color: var(--accent); text-decoration: none; font-size: 13px; }
+  header .back:hover { text-decoration: underline; }
+  h2 { font-size: 20px; margin: 32px 0 12px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+  h3 { font-size: 16px; margin: 20px 0 8px; color: var(--accent); }
+  p { margin: 8px 0; }
+  ul, ol { margin: 8px 0 8px 0; padding-left: 22px; }
+  li { margin: 4px 0; }
+  code { background: var(--surface-2); padding: 1px 5px; border-radius: 3px; font-size: 13px; font-family: ui-monospace, Menlo, Consolas, monospace; }
+  .callout { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 8px; padding: 14px 18px; margin: 16px 0; font-size: 14px; }
+  .callout.warn { border-left-color: var(--warn); }
+  .callout.warn strong { color: var(--warn); }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 13px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  th, td { padding: 8px 12px; text-align: left; border-bottom: 1px solid var(--border); }
+  th { background: var(--surface-2); color: var(--text-dim); font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+  tr:last-child td { border-bottom: none; }
+  a { color: var(--accent); }
+  .pill { display: inline-block; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; padding: 2px 7px; border-radius: 4px; vertical-align: middle; }
+  .pill.buy { background: rgba(74,222,128,0.15); color: var(--buy); border: 1px solid rgba(74,222,128,0.35); }
+  .pill.sell { background: rgba(248,113,113,0.15); color: var(--sell); border: 1px solid rgba(248,113,113,0.35); }
+  .pill.warn { background: rgba(251,191,36,0.15); color: var(--warn); border: 1px solid rgba(251,191,36,0.35); }
+  @media (max-width: 720px) { .wrap { padding: 18px 14px 36px; } header h1 { font-size: 22px; } h2 { font-size: 18px; } table { font-size: 12px; } th, td { padding: 6px 8px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="back" href="./">&larr; Back to current report</a>
+    <h1>Methodology</h1>
+    <p class="subtitle">How the weekly Gundam TCG report is built, what each signal means, and where the data comes from.</p>
+  </header>
+
+  <h2>Core hypothesis</h2>
+  <p>Gundam Card Game prices are <strong>playability-driven</strong>. Unlike Pokemon TCG (where art collectibility dominates) or Magic (where format rotation does), Gundam's young market reacts most strongly to competitive results: cards that perform in tournaments appreciate, cards that fall out of meta deflate. Every signal in this report flows from that premise.</p>
+
+  <h2>Data sources</h2>
+  <table>
+    <tr><th>Source</th><th>Type</th><th>Auth</th><th>What we use</th></tr>
+    <tr><td><a href="https://tcgcsv.com/">TCGCSV</a></td><td>Free, public</td><td>None</td><td>Live TCGPlayer market prices for category 86 (Gundam Card Game), all 18 groups: GD01-GD04, Edition Beta, Promotional, EX tokens, ST01-ST09 starter decks. Refreshed each report run.</td></tr>
+    <tr><td><a href="https://docs.limitlesstcg.com/developer.html">Limitless Tournament API</a></td><td>Free, public</td><td>None for read</td><td>Per-tournament standings with full decklists. We pull the last 200 Gundam events, filter to 8+ player tournaments, aggregate card usage. Currently 96 tournaments / 2,163 decks across 53 weeks.</td></tr>
+    <tr><td>Web search + community sites</td><td>Free</td><td>None</td><td>Sourced narrative for buy/sell calls. Sites: <a href="https://gundamcard.gg/tier-list/">gundamcard.gg</a>, <a href="https://exburst.dev/gundam/tournaments/meta">exburst.dev</a>, <a href="https://gcgmeta.com/">gcgmeta.com</a>, Bandai official, Essential Japan, Beckett News.</td></tr>
+  </table>
+  <p><strong>Skipped:</strong> PriceCharting Premium (~$50-100/yr) for eBay sold + graded prices. Adds eBay-sold validation but isn't free. Considered for v2 if signal credibility starts mattering more.</p>
+
+  <h2>Signal definitions</h2>
+
+  <h3>What Moved (Last 4 Weeks)</h3>
+  <p>The leading indicator. For each card eligible (appeared in 5+ weeks across the 53-week window with 10+ decks per week), we compute:</p>
+  <ul>
+    <li><code>recentAvg</code>: average play rate across the last 4 weeks</li>
+    <li><code>priorAvg</code>: average play rate across the prior 4 weeks (weeks -8 through -5)</li>
+    <li><code>Δpp = (recentAvg - priorAvg) * 100</code></li>
+  </ul>
+  <p>Top risers and fallers are sorted by <code>Δpp</code>. Eligible cards: 267.</p>
+
+  <h3>Buy signals</h3>
+  <table>
+    <tr><th>Signal</th><th>Trigger</th><th>Why it works</th></tr>
+    <tr><td><span class="pill buy">Meta Riser</span></td><td>Δpp ≥ +10pp AND recentAvg ≥ 0.20</td><td>Tournament play rate leads price. New staples get bought first by competitors, then by collectors and resellers.</td></tr>
+    <tr><td><span class="pill buy">Meta Staple Underpriced</span></td><td>recentAvg ≥ 0.30 AND base price &lt; $50</td><td>Mismatch between competitive demand and market price. Often resolves upward.</td></tr>
+    <tr><td><span class="pill buy">New Set Chase</span></td><td>Just-released LR++ from popular Gundam universe + Bandai showcase + tournament debut</td><td>Initial release hype + scarcity (LR++ is ~1 per case of 12 boxes).</td></tr>
+    <tr><td><span class="pill buy">Sealed Supply Squeeze</span></td><td>Booster box &gt; 2x MSRP, no announced reprint</td><td>Box price is a leading indicator for singles supply. Tight boxes mean tighter singles ahead.</td></tr>
+  </table>
+
+  <h3>Sell signals</h3>
+  <table>
+    <tr><th>Signal</th><th>Trigger</th><th>Why it works</th></tr>
+    <tr><td><span class="pill sell">Meta Falling</span></td><td>Δpp ≤ -10pp AND priorAvg ≥ 0.20</td><td>Falling play rate forecasts demand erosion. Catch it before the price drops.</td></tr>
+    <tr><td><span class="pill sell">Reprint Risk - High</span></td><td>30%+ staple from older set without SP reprint yet</td><td>Bandai's pattern: GD03 reprinted GD01 staples (Overflowing Affection, A Show of Resolve, Battle of Aces) as SP variants. Heavy staples without an SP yet are at elevated risk for GD05+.</td></tr>
+    <tr><td><span class="pill sell">Promo Saturation</span></td><td>Promo from ongoing event series (Newtype Challenge, Regional Championship)</td><td>Each event run adds supply. Demand stays flat or fades.</td></tr>
+    <tr><td><span class="pill sell">Hype Fade</span></td><td>Spiked on a single tournament result, no follow-through</td><td>Single-event spikes mean-revert when narrative doesn't continue.</td></tr>
+    <tr><td><span class="pill sell">Take Profit on LR++</span></td><td>Up &gt; 50% off recent low, catalyst &gt; 60 days old, no new narrative</td><td>Initial-release LR++ chase cards typically peak 30-90 days post-release, then drift.</td></tr>
+  </table>
+
+  <h3>Confidence scoring</h3>
+  <p>Each meta dashboard row carries a confidence pill based on sample size:</p>
+  <ul>
+    <li><span class="conf-high pill">High</span> &mdash; card seen in 30+ recent decks across 8+ weeks of data</li>
+    <li><span class="conf-med pill">Medium</span> &mdash; 15-29 decks OR fewer than 8 weeks of data</li>
+    <li><span class="conf-low pill">Low</span> &mdash; &lt;15 decks or just-emerged signal (treat as directional only)</li>
+  </ul>
+  <style>.conf-high.pill { background: rgba(74,222,128,0.15); color: var(--buy); border: 1px solid rgba(74,222,128,0.35); } .conf-med.pill { background: rgba(251,191,36,0.15); color: var(--warn); border: 1px solid rgba(251,191,36,0.35); }</style>
+
+  <h2>Backtesting (current state)</h2>
+  <div class="callout warn">
+    <strong>Honest disclosure:</strong> True predictive backtesting requires historical price snapshots aligned with historical signals. We have 53 weeks of tournament data but only one week of our own price snapshots. Real predictive validation begins from week 6+ once we have enough signal-then-price-outcome pairs. For now, this report's signals are derived from documented mechanics, not validated against held-out data.
+  </div>
+
+  <h3>What we can validate today (with current data)</h3>
+  <ul>
+    <li><strong>Cross-sectional correlation:</strong> Cards with high recent play rate (e.g., Overflowing Affection at 41%) trade at premium prices for their rarity tier (U+ at $186 vs typical U+ at $5-15). This is descriptive, not predictive.</li>
+    <li><strong>SP-reprint pattern:</strong> Empirically observed: GD03 included SP variants of three GD01 staples that were heavily played in late-2025 tournaments. Cards meeting the same criteria today (high play rate, no SP yet) form the Reprint Risk Watch.</li>
+    <li><strong>Sealed scarcity signal:</strong> Observed: GD01 boxes at 2.6x MSRP with no reprint window communicated, while GD03 (which included GD01 reprints) is sub-MSRP. Sealed product moves before singles do.</li>
+  </ul>
+
+  <h3>What we'll be able to backtest by week 6</h3>
+  <ol>
+    <li><strong>Hit rate of Meta Riser as a buy signal:</strong> for each Meta Riser flagged at week N, did the price increase by week N+2? N+4? Compute hit rate.</li>
+    <li><strong>Hit rate of Meta Falling as a sell signal:</strong> mirror analysis.</li>
+    <li><strong>False positive rate by signal type:</strong> a Hype Fade flagged that didn't materialize.</li>
+  </ol>
+  <p>Week-6 methodology page will publish the actual numbers. Until then, treat signal accuracy as <em>theoretical</em>, not measured.</p>
+
+  <h2>Limitations to call out</h2>
+  <ol>
+    <li><strong>TCGPlayer market price ≠ true market price.</strong> It's listing-derived (algorithmic blend of recent listings), not eBay-sold. For LR++ chase cards that trade thinly, eBay sold can lead market price by 3-7 days.</li>
+    <li><strong>No sale-volume data.</strong> Both TCGCSV and Limitless lack sale-velocity. We use tournament play rate as a demand proxy, but actual transaction volume is invisible to us.</li>
+    <li><strong>Sample weighting.</strong> A card seen in one 72-player tournament weights the same in our aggregate as one seen across 9 small locals. We surface confidence levels but don't formally weight by tournament size.</li>
+    <li><strong>Limitless deck categorizer doesn't categorize Gundam yet.</strong> All decks return <code>deck.id: "other"</code>. We aggregate at the card level, not the archetype level, so we miss "this card is concentrated in one deck vs spread across many" insights.</li>
+    <li><strong>16 months of English market history.</strong> GD01 launched July 2025. Signal thresholds (10pp Δ, 30% staple line, 25% take-profit) are starting points, not backtested against Gundam's specific volatility.</li>
+    <li><strong>Single price source.</strong> No eBay sold validation, no graded (PSA 9/10) prices, no international (Japanese) market context.</li>
+  </ol>
+
+  <h2>Frequency &amp; cadence</h2>
+  <ul>
+    <li><strong>Tournament data:</strong> pulled fresh from Limitless every report run (Sundays, 8 PM CT). Captures any tournaments completed in the prior week.</li>
+    <li><strong>Pricing snapshot:</strong> pulled fresh from TCGCSV every run. Saved to <code>snapshots/prices-YYYY-MM-DD.json</code> for week-over-week comparison.</li>
+    <li><strong>Meta snapshot:</strong> aggregated card usage saved to <code>snapshots/meta-YYYY-MM-DD.json</code> alongside.</li>
+    <li><strong>Future:</strong> consider daily price snapshots (data layer) while keeping reports weekly. Improves intra-week signal resolution without changing reading cadence.</li>
+  </ul>
+
+  <h2>How to read each pick</h2>
+  <p>Every featured card includes:</p>
+  <ul>
+    <li>Card identity (name, set, number, rarity verified against TCGCSV product data)</li>
+    <li>Price table (TCGPlayer market, low, top variant) with the lightbox image</li>
+    <li>Why it's moving with at least one attributed source (Limitless tournament IDs, gundamcard.gg article, Bandai announcement, etc.)</li>
+    <li>Risk callout (what could invalidate the signal)</li>
+  </ul>
+  <p>If a card cannot be verified or sourced, it's omitted. Quality over quantity.</p>
+
+  <h2>Not investment advice</h2>
+  <p>Card prices are volatile, especially in a young market. Signals here are observations, not recommendations. The Gundam Card Game has only 16 months of English-market history. Make your own decisions.</p>
+
+  <p style="margin-top: 32px;"><a href="./">&larr; Back to current report</a></p>
+</div>
+</body>
+</html>
